@@ -2,6 +2,6 @@ groq
 streamlit
 python-dotenv
 faster-whisper
-pyttsx3
+edge-tts
 chromadb
 sentence-transformers

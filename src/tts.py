@@ -1,26 +1,15 @@
-import pyttsx3
+import asyncio
+import edge_tts
 import os
 
-_engine = None
-
-def _get_engine():
-    global _engine
-    if _engine is None:
-        _engine = pyttsx3.init()
-    return _engine
-
-def warmup():
-    engine = _get_engine()
-    tmp = "warmup_.wav"
-    engine.save_to_file("Hello.", tmp)
-    engine.runAndWait()
-    try:
-        os.remove(tmp)
-    except OSError:
-        pass
+VOICE = "en-US-AriaNeural"
 
 def speak(text: str, output_path: str = "response.wav") -> str:
-    engine = _get_engine()
-    engine.save_to_file(text, output_path)
-    engine.runAndWait()
+    async def _run():
+        communicate = edge_tts.Communicate(text, VOICE)
+        await communicate.save(output_path)
+    asyncio.run(_run())
     return output_path
+
+def warmup():
+    speak("Hello.")

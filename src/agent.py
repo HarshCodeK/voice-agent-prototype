@@ -39,6 +39,8 @@ def _ask_llm(prompt: str) -> str:
         model=GROQ_MODEL,
         messages=[{"role": "user", "content": prompt}],
         temperature=0.3,
+        max_tokens=200,
+        timeout=30,
     )
     return response.choices[0].message.content.strip()
 

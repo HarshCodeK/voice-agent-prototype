@@ -17,7 +17,7 @@ VALID_INTENTS = {"faq", "order_status", "schedule_appointment", "escalate"}
 
 PROMPT_TEMPLATE = """You are an intent classifier for a customer service voice agent.
 Classify the user's request into one of these intents:
-- faq: general questions about business policies (e.g. "What are your business hours?")
+- faq: general questions about business policies, services, or general knowledge (e.g. "What are your business hours?", "Who is the president of the USA?")
 - order_status: checking an existing order (e.g. "Where is my order ORD-1001?")
 - schedule_appointment: booking a call or visit (e.g. "I want to book an appointment")
 - escalate: anything else you cannot confidently classify
@@ -35,6 +35,7 @@ def classify_intent(user_text: str) -> str:
         messages=[{"role": "user", "content": prompt}],
         temperature=0,
         max_tokens=10,
+        timeout=15,
     )
     intent = response.choices[0].message.content.strip().lower()
     if intent in VALID_INTENTS:

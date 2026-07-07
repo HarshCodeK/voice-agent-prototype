@@ -1,8 +1,11 @@
+import os
+
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+
 from faster_whisper import WhisperModel
 from src.config import WHISPER_MODEL_SIZE
-import numpy as np
-import wave
-import struct
 
 _model = None
 
@@ -13,11 +16,7 @@ def _get_model():
     return _model
 
 def warmup():
-    model = _get_model()
-    silence = np.zeros(16000, dtype=np.float32)
-    segments, _ = model.transcribe(silence, language="en")
-    for _ in segments:
-        pass
+    _get_model()
 
 def transcribe(audio_file_path: str) -> str:
     model = _get_model()
