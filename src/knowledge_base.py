@@ -40,6 +40,9 @@ def _chunk_text(text: str, chunk_size: int = 300) -> list[str]:
         chunks.append(" ".join(current))
     return chunks
 
+def warmup():
+    _get_model()
+
 def build_knowledge_base():
     model = _get_model()
     collection = _get_collection()

@@ -79,6 +79,11 @@ Request: {user_text}"""
         return f"Your appointment on {date} at {time} has been booked successfully!"
     return f"Sorry, the slot on {date} at {time} is unavailable. Please choose another time."
 
+def warmup():
+    _get_llm()
+    from src.intent_router import classify_intent
+    classify_intent("Hello")
+
 def handle_user_input(user_text: str, use_rag: bool = True) -> str:
     start = time.time()
     intent = classify_intent(user_text)
