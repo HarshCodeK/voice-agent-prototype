@@ -28,6 +28,11 @@ Context:
 Question: {question}
 Answer:"""
 
+DIRECT_PROMPT = """You are a helpful customer service agent. Answer the question conversationally.
+
+Question: {question}
+Answer:"""
+
 def _ask_llm(prompt: str) -> str:
     client = _get_llm()
     response = client.chat.completions.create(
@@ -37,10 +42,13 @@ def _ask_llm(prompt: str) -> str:
     )
     return response.choices[0].message.content.strip()
 
-def _handle_faq(user_text: str) -> str:
-    context_chunks = retrieve_faq_context(user_text)
-    context = "\n\n".join(context_chunks)
-    prompt = FAQ_PROMPT.format(context=context, question=user_text)
+def _handle_faq(user_text: str, use_rag: bool = True) -> str:
+    if use_rag:
+        context_chunks = retrieve_faq_context(user_text)
+        context = "\n\n".join(context_chunks)
+        prompt = FAQ_PROMPT.format(context=context, question=user_text)
+    else:
+        prompt = DIRECT_PROMPT.format(question=user_text)
     return _ask_llm(prompt)
 
 def _handle_order_status(user_text: str) -> str:
@@ -71,11 +79,11 @@ Request: {user_text}"""
         return f"Your appointment on {date} at {time} has been booked successfully!"
     return f"Sorry, the slot on {date} at {time} is unavailable. Please choose another time."
 
-def handle_user_input(user_text: str) -> str:
+def handle_user_input(user_text: str, use_rag: bool = True) -> str:
     start = time.time()
     intent = classify_intent(user_text)
     if intent == "faq":
-        response = _handle_faq(user_text)
+        response = _handle_faq(user_text, use_rag)
     elif intent == "order_status":
         response = _handle_order_status(user_text)
     elif intent == "schedule_appointment":
