@@ -1,0 +1,1 @@
+# Seeds the mock business database with orders and appointment slots

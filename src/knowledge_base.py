@@ -1,0 +1,1 @@
+# FAQ knowledge base using ChromaDB and sentence-transformers

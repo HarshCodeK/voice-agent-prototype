@@ -1,0 +1,7 @@
+groq
+streamlit
+python-dotenv
+faster-whisper
+pyttsx3
+chromadb
+sentence-transformers
