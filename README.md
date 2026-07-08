@@ -1,7 +1,5 @@
 # Voice Agent Prototype
 
-![Project Screenshot](../image.png)
-
 A local browser-based voice agent that simulates a customer service call. You speak (or upload audio), it transcribes your speech, figures out what you want, answers using a small knowledge base or mock business data, and speaks the answer back.
 
 ## Why simulate calls in the browser?
